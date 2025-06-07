@@ -17,30 +17,44 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      home: SplashScreen(), // Cambié aquí para que inicie con el SplashScreen
+      routes: {
+        '/home': (context) => HomeScreen(),
+        '/math': (context) => MathGamesScreen(),
+        '/reading': (context) => ReadingGamesScreen(),
+        '/login': (context) => LoginScreen(),
+      },
     );
   }
 }
 
-// Widget para pantalla de carga inicial (opcional)
+// Widget para pantalla de carga inicial (SplashScreen) con logo personalizado
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, '/');
+    Future.delayed(Duration(seconds: 5), () {
+      // Después de 2 segundos, redirige al LoginScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
     });
 
     return Scaffold(
-      backgroundColor: Colors.blue[100],
+      backgroundColor: Colors.blue, // Fondo azul
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlutterLogo(size: 100),
+            Image.asset(
+              'assets/icons/Logo.png', // Usa tu imagen personalizada
+              width: 100,
+              height: 100,
+            ),
             SizedBox(height: 20),
             Text(
               'Cargando...',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ],
         ),

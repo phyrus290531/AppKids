@@ -19,11 +19,18 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/icons/Logo.png
+
+
 flutter:
   uses-material-design: true
   assets:
     - assets/fonts/ComicNeue/
     - assets/images/
+    - assets/icons/Logo.png
   fonts:
     - family: ComicNeue
       fonts:
