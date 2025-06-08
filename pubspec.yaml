@@ -31,6 +31,12 @@ flutter:
     - assets/fonts/ComicNeue/
     - assets/images/
     - assets/icons/Logo.png
+    - assets/fondo/fondo1.jpg
+    - assets/letras/
+    - assets/sonidos/
+    - assets/sonidos/Que_vocal_es_esta.mp3
+    - assets/sonidos/Arrastra_la_vocal.mp3
+
   fonts:
     - family: ComicNeue
       fonts:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'math_games.dart';
 import 'reading_games.dart';
+import '../lectura/main_vocales.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -67,7 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Color(0xFFFF7BAC),
                         image: 'assets/images/abc_lesson.png',
                         onTap: () {
-                          // Navegación a la lección ABC
+                          // TODO: Navegación a la lección ABC
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Próximamente: El ABC')),
+                          );
                         },
                       ),
                       SizedBox(height: 16),
@@ -78,6 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         image: 'assets/images/vocales_lesson.jpg',
                         onTap: () {
                           // Navegación a la lección de vocales
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VocalesGame(),
+                            ),
+                          );
                         },
                       ),
                       SizedBox(height: 16),
@@ -89,6 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         isLocked: true,
                         onTap: () {
                           // Mostrar mensaje de nivel bloqueado
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Nivel bloqueado')),
+                          );
                         },
                       ),
                     ],
