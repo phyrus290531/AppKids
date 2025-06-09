@@ -104,9 +104,9 @@ void _repetirInstruccion(String ruta) async {
   await _audioInstruccion.release();
   await _audioInstruccion.setVolume(3.0); // Volumen máximo
   await _audioInstruccion.play(AssetSource(ruta));
-  // Programa repetición cada 10 segundos
+  // Programa repetición cada 6 segundos
   _timerInstruccion?.cancel();
-  _timerInstruccion = Timer.periodic(const Duration(seconds: 10), (_) async {
+  _timerInstruccion = Timer.periodic(const Duration(seconds: 6), (_) async {
     await _audioInstruccion.stop();
     await _audioInstruccion.release();
     await _audioInstruccion.setVolume(3.0); // Volumen máximo
@@ -342,7 +342,7 @@ Future<void> _tocarFeedback(String tipo) async {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/fondo/fondo1.jpg',
+              'assets/images/Fondolectura.jpeg',
               fit: BoxFit.cover,
             ),
           ),

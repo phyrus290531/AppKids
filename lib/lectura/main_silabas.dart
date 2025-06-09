@@ -315,7 +315,7 @@ class _SilabasGameState extends State<SilabasGame> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/fondo/fondo1.jpg',
+              'assets/images/Fondolectura.jpeg',
               fit: BoxFit.cover,
             ),
           ),

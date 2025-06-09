@@ -201,7 +201,7 @@ class _CountingGameScreenState extends State<CountingGameScreen> {
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/images/Fondosalon2.jpg',
+                'assets/images/fondomatematicas.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -212,17 +212,38 @@ class _CountingGameScreenState extends State<CountingGameScreen> {
                     minHeight: MediaQuery.of(context).size.height * 0.85,
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Barra de progreso
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: LinearProgressIndicator(
-                          value: (currentLevel + 1) / totalLevels,
-                          backgroundColor: Colors.grey[300],
-                          color: Colors.purple,
-                          minHeight: 8,
-                        ),
+                      const SizedBox(height: 40),
+                      // Barra de progreso y botón de regreso (igual que main_vocales.dart)
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.lightBlue, size: 32),
+                            onPressed: () => Navigator.of(context).maybePop(),
+                          ),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 18,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(9),
+                                  ),
+                                ),
+                                AnimatedContainer(
+                                  duration: Duration(milliseconds: 400),
+                                  height: 18,
+                                  width: (MediaQuery.of(context).size.width - 60) * ((currentLevel + 1) / totalLevels),
+                                  decoration: BoxDecoration(
+                                    color: Colors.lightGreen,
+                                    borderRadius: BorderRadius.circular(9),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0, bottom: 8),
@@ -401,14 +422,14 @@ class _CountingGameScreenState extends State<CountingGameScreen> {
               ),
             ),
             // Botón de cerrar
-            Positioned(
-              top: 8,
-              left: 8,
-              child: IconButton(
-                icon: Icon(Icons.close, size: 32),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
+            // Positioned(
+            //   top: 8,
+            //   left: 8,
+            //   child: IconButton(
+            //     icon: Icon(Icons.close, size: 32),
+            //     onPressed: () => Navigator.of(context).pop(),
+            //   ),
+            // ),
           ],
         ),
       ),

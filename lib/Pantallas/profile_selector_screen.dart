@@ -40,12 +40,14 @@ class _ProfileSelectorScreenState extends State<ProfileSelectorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Solo agrega el perfil si viene de la pantalla de avatar y no se ha agregado aún
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth > 900 ? 5 : screenWidth > 600 ? 4 : 2;
+    final cardColor = Colors.blue.shade700; // Mismo tono que splashScreen
+
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     if (args != null && args.containsKey('name')) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _addProfile(args);
-        // Limpia argumentos para evitar duplicados
         Navigator.pushReplacementNamed(context, '/profiles');
       });
       return SizedBox.shrink();
@@ -74,11 +76,12 @@ class _ProfileSelectorScreenState extends State<ProfileSelectorScreen> {
       ),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(16.0),
         child: GridView.count(
-          crossAxisCount: 3,
+          crossAxisCount: crossAxisCount,
           mainAxisSpacing: 24,
           crossAxisSpacing: 24,
+          childAspectRatio: 0.8,
           children: [
             ...profiles.map((profile) => GestureDetector(
               onTap: () {
@@ -88,23 +91,39 @@ class _ProfileSelectorScreenState extends State<ProfileSelectorScreen> {
                 );
               },
               onLongPress: () async {
-                // Elimina este perfil individualmente
                 final prefs = await SharedPreferences.getInstance();
                 profiles.remove(profile);
                 await prefs.setString('profiles', jsonEncode(profiles));
                 setState(() {});
               },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircleAvatar(
-                    radius: 48,
-                    backgroundImage: AssetImage(profile['avatar']),
-                    backgroundColor: Colors.blue.shade100,
+              child: Card(
+                color: cardColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                elevation: 6,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage(profile['avatar']),
+                        backgroundColor: Colors.blue.shade100,
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        profile['name'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  Text(profile['name'], style: TextStyle(fontWeight: FontWeight.bold)),
-                ],
+                ),
               ),
             )),
             // Botón "Add a child"
@@ -112,17 +131,32 @@ class _ProfileSelectorScreenState extends State<ProfileSelectorScreen> {
               onTap: () {
                 Navigator.pushNamed(context, '/profile_name');
               },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircleAvatar(
-                    radius: 48,
-                    backgroundColor: Colors.grey.shade200,
-                    child: Icon(Icons.add, size: 48, color: Colors.grey),
+              child: Card(
+                color: cardColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                elevation: 6,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.add, size: 48, color: Colors.blue.shade700),
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        'Add a child',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  Text('Add a child', style: TextStyle(color: Colors.grey)),
-                ],
+                ),
               ),
             ),
           ],

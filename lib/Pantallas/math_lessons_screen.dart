@@ -18,7 +18,7 @@ class _MathLessonsScreenState extends State<MathLessonsScreen> {
           // Imagen de fondo
           Positioned.fill(
             child: Image.asset(
-              'assets/images/FondoApp.png',
+              'assets/images/fondochido.gif',
               fit: BoxFit.cover,
             ),
           ),
@@ -69,14 +69,25 @@ class _MathLessonsScreenState extends State<MathLessonsScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Matemáticas',
-                    style: TextStyle(
-                      fontFamily: 'ComicNeue',
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  child: Center(
+                    child: Card(
+                      color: Colors.white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                        child: Text(
+                          'Matemáticas',
+                          style: TextStyle(
+                            fontFamily: 'ComicNeue',
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -221,63 +232,97 @@ class _LessonCard extends StatelessWidget {
     this.isLocked = false,
   });
 
+  // Función para obtener un color más oscuro
+  Color _darken(Color color, [double amount = .2]) {
+    final hsl = HSLColor.fromColor(color);
+    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+    return hslDark.toColor();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(12),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onTap,
+        onTap: isLocked ? null : onTap,
         child: Container(
           height: 120,
           decoration: BoxDecoration(
             color: color,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: _darken(color, 0.22), // Borde más oscuro
+              width: 3,
+            ),
           ),
-          child: Stack(
+          child: Row(
             children: [
-              Positioned(
-                right: 0,
-                bottom: 0,
-                top: 0,
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
+              // Contenido de texto
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            isLocked ? Icons.lock : Icons.play_arrow,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            subtitle,
+                            style: TextStyle(
+                              fontFamily: 'ComicNeue',
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontFamily: 'ComicNeue',
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          isLocked ? Icons.lock : Icons.play_arrow,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          subtitle,
-                          style: TextStyle(
-                            fontFamily: 'ComicNeue',
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
+              // Imagen dentro de un Card blanco
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Card(
+                    color: Colors.white,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontFamily: 'ComicNeue',
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.asset(
+                          image,
+                          fit: BoxFit.contain,
+                          height: 80,
+                          width: 80,
+                        ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
