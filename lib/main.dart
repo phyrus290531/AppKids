@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'Pantallas/home_screen.dart';
-import 'Pantallas/math_games.dart';
-import 'Pantallas/reading_games.dart';
-import 'Pantallas/login_screen.dart';
+import 'Pantallas/profile_selector_screen.dart';
+import 'Pantallas/profile_name_screen.dart';
+import 'Pantallas/profile_age_screen.dart';
+import 'Pantallas/profile_avatar_screen.dart';
+import 'Pantallas/settings_screen.dart';
+import 'Pantallas/math_lessons_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -17,37 +20,34 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(), // Cambié aquí para que inicie con el SplashScreen
+      home: SplashScreen(),
       routes: {
-        '/home': (context) => HomeScreen(),
-        '/math': (context) => MathGamesScreen(),
-        '/reading': (context) => ReadingGamesScreen(),
-        '/login': (context) => LoginScreen(),
+        '/profiles': (context) => ProfileSelectorScreen(),
+        '/profile_name': (context) => ProfileNameScreen(),
+        '/profile_age': (context) => ProfileAgeScreen(),
+        '/profile_avatar': (context) => ProfileAvatarScreen(),
+        '/settings': (context) => SettingsScreen(),
+        '/math_lessons': (context) => MathLessonsScreen(),
       },
     );
   }
 }
 
-// Widget para pantalla de carga inicial (SplashScreen) con logo personalizado
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 5), () {
-      // Después de 2 segundos, redirige al LoginScreen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.pushReplacementNamed(context, '/profiles');
     });
 
     return Scaffold(
-      backgroundColor: Colors.blue, // Fondo azul
+      backgroundColor: Colors.blue,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/icons/Logo.png', // Usa tu imagen personalizada
+              'assets/icons/Logo.png',
               width: 100,
               height: 100,
             ),

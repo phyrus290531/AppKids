@@ -1,37 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart'; // Agrega este import
-import '../lectura/main_vocales.dart';
-import '../lectura/main_abc.dart';
-import '../lectura/main_silabas.dart';
-import 'math_lessons_screen.dart'; // <-- Corrige aquí
-import 'settings_screen.dart'; // Asegúrate de importar la pantalla de configuración
+import 'home_screen.dart';
+import 'sumas_game_screen.dart';
+import 'counting_game_screen.dart';
+import 'restas_game_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class MathLessonsScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MathLessonsScreenState createState() => _MathLessonsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final AudioPlayer _backgroundPlayer = AudioPlayer();
-
-  @override
-  void initState() {
-    super.initState();
-    _iniciarMusicaFondo();
-  }
-
-  Future<void> _iniciarMusicaFondo() async {
-    await _backgroundPlayer.setReleaseMode(ReleaseMode.loop);
-    await _backgroundPlayer.play(AssetSource('sonidos/menu.mp3'));
-    await _backgroundPlayer.setVolume(0.2); // Ajusta el volumen si lo deseas
-  }
-
-  @override
-  void dispose() {
-    _backgroundPlayer.dispose();
-    super.dispose();
-  }
-
+class _MathLessonsScreenState extends State<MathLessonsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,18 +22,16 @@ class _HomeScreenState extends State<HomeScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          // Capa semi-transparente (opcional)
+          // Capa semi-transparente
           Positioned.fill(
-            child: Container(
-              //color: Colors.white.withOpacity(0.8),
-            ),
+            child: Container(),
           ),
-          // Menú superior personalizado y contenido principal
+          // Contenido principal
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Menú de iconos grandes arriba
+                // Menú de iconos grandes arriba (igual que home_screen.dart)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                   child: Row(
@@ -65,20 +41,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       _MenuCircleIcon(
                         icon: Icons.book,
                         label: 'Lectura',
-                        selected: true,
-                        onTap: () {},
+                        selected: false,
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomeScreen()),
+                          );
+                        },
                       ),
                       // Icono Matemáticas
                       _MenuCircleIcon(
                         icon: Icons.calculate,
                         label: 'Matemáticas',
-                        selected: false,
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => MathLessonsScreen()),
-                          );
-                        },
+                        selected: true,
+                        onTap: () {},
                       ),
                       // Icono Configuración
                       _MenuCircleIcon(
@@ -86,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         label: 'Configuración',
                         selected: false,
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+                          Navigator.pushReplacementNamed(context, '/settings');
                         },
                       ),
                     ],
@@ -95,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
-                    'Lectura',
+                    'Matemáticas',
                     style: TextStyle(
                       fontFamily: 'ComicNeue',
                       fontSize: 32,
@@ -121,46 +97,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     children: [
                       _LessonCard(
-                        title: 'El ABC',
+                        title: 'Aprende a Contar',
                         subtitle: 'Nivel 1',
                         color: Color(0xFFFF7BAC),
-                        image: 'assets/images/abc_lesson.png',
+                        image: 'assets/images/Numeros.png',
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => AbecedarioGame(),
-                            ),
+                            MaterialPageRoute(builder: (context) => CountingGameScreen()),
                           );
                         },
                       ),
                       SizedBox(height: 16),
                       _LessonCard(
-                        title: 'Las Vocales',
+                        title: 'Sumas Básicas',
                         subtitle: 'Nivel 2',
                         color: Color(0xFF9C7BFF),
-                        image: 'assets/images/vocales_lesson.jpg',
+                        image: 'assets/images/Sumas.png',
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => VocalesGame(),
-                            ),
+                            MaterialPageRoute(builder: (context) => SumasGameScreen()),
                           );
                         },
                       ),
                       SizedBox(height: 16),
                       _LessonCard(
-                        title: 'Las Sílabas',
+                        title: 'Restas Básicas',
                         subtitle: 'Nivel 3',
                         color: Color(0xFF7B9FFF),
-                        image: 'assets/images/silabas_lesson.jpg',
+                        image: 'assets/images/Restas.png',
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => SilabasGame(), // Cambia el nombre si tu widget es diferente
-                            ),
+                            MaterialPageRoute(builder: (context) => RestasGameScreen()),
                           );
                         },
                       ),
@@ -176,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Widget para los iconos circulares del menú superior
+// Copia este widget desde home_screen.dart para mantener el mismo estilo
 class _MenuCircleIcon extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -257,7 +227,7 @@ class _LessonCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: isLocked ? null : onTap,
+        onTap: onTap,
         child: Container(
           height: 120,
           decoration: BoxDecoration(

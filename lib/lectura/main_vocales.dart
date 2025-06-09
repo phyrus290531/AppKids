@@ -102,21 +102,21 @@ void _repetirInstruccion(String ruta) async {
   // Reproduce inmediatamente
   await _audioInstruccion.stop();
   await _audioInstruccion.release();
-  await _audioInstruccion.setVolume(1.0); // Volumen máximo
+  await _audioInstruccion.setVolume(3.0); // Volumen máximo
   await _audioInstruccion.play(AssetSource(ruta));
   // Programa repetición cada 10 segundos
   _timerInstruccion?.cancel();
   _timerInstruccion = Timer.periodic(const Duration(seconds: 10), (_) async {
     await _audioInstruccion.stop();
     await _audioInstruccion.release();
-    await _audioInstruccion.setVolume(1.0); // Volumen máximo
+    await _audioInstruccion.setVolume(3.0); // Volumen máximo
     await _audioInstruccion.play(AssetSource(ruta));
   });
 }
   Future<void> _iniciarMusicaFondo() async {
     await _backgroundPlayer.setReleaseMode(ReleaseMode.loop);
     await _backgroundPlayer.play(AssetSource('sonidos/puzzlegame.mp3'));
-    await _backgroundPlayer.setVolume(0.1); // Volumen más bajo
+    await _backgroundPlayer.setVolume(0.0); // Volumen más bajo
   }
 
   void _generarNuevaRonda() async {
@@ -335,6 +335,8 @@ Future<void> _tocarFeedback(String tipo) async {
 
   @override
   Widget build(BuildContext context) {
+    double progreso = (_nivelActual < 10) ? (_nivelActual / 10) : 1.0;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -353,6 +355,38 @@ Future<void> _tocarFeedback(String tipo) async {
                   child: Column(
                     children: [
                       const SizedBox(height: 40),
+                      // Barra de progreso y botón de regreso
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.lightBlue, size: 32),
+                            onPressed: () => Navigator.of(context).maybePop(),
+                          ),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 18,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(9),
+                                  ),
+                                ),
+                                AnimatedContainer(
+                                  duration: Duration(milliseconds: 400),
+                                  height: 18,
+                                  width: (MediaQuery.of(context).size.width - 60) * progreso,
+                                  decoration: BoxDecoration(
+                                    color: Colors.lightGreen,
+                                    borderRadius: BorderRadius.circular(9),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                       Text(
                         _modoArrastrar ? 'Arrastra la vocal que escuchaste:' : '¿Qué vocal es esta?',
                         style: const TextStyle(

@@ -9,6 +9,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
+  final TextEditingController _nameController = TextEditingController();
+  bool _isButtonEnabled = false;
 
   @override
   void initState() {
@@ -20,11 +22,17 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
+    _nameController.addListener(() {
+      setState(() {
+        _isButtonEnabled = _nameController.text.trim().isNotEmpty;
+      });
+    });
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -43,26 +51,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.blue, // Mismo azul que el SplashScreen
       body: LayoutBuilder(
         builder: (context, constraints) {
           bool isWideScreen = constraints.maxWidth > 600;
 
           return Stack(
             children: [
-              // Imagen de fondo
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/images/FondoApp.png', // Asegúrate de tener esta imagen
-                  fit: BoxFit.cover,
-                ),
-              ),
-              // Capa semi-transparente para mejorar la legibilidad
-              Positioned.fill(
-                child: Container(
-                  //color: Colors.white.withOpacity(0.8),
-                ),
-              ),
+              // Imagen de fondo removida para mantener el azul sólido
               // Contenido principal
               SafeArea(
                 child: Center(
@@ -73,23 +69,48 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/LogoApp.png',
-                          height: isWideScreen ? 300 : 250,
+                          'assets/icons/Logo.png', // Pinguino del SplashScreen
+                          height: isWideScreen ? 180 : 140,
                         ),
                         SizedBox(height: isWideScreen ? 40 : 30),
                         Text(
-                          '¡Es Hora de Aprender!',
+                          '¡Bienvenido!',
                           style: TextStyle(
-                            fontSize: isWideScreen ? 40 : 32,
+                            fontSize: isWideScreen ? 36 : 28,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF2E86C1),
+                            color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: isWideScreen ? 60 : 50),
+                        SizedBox(height: 20),
+                        Text(
+                          '¿Cómo te llamas?',
+                          style: TextStyle(
+                            fontSize: isWideScreen ? 22 : 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        TextField(
+                          controller: _nameController,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.2),
+                            hintText: 'Escribe tu nombre',
+                            hintStyle: TextStyle(color: Colors.white70),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 30),
                         GestureDetector(
-                          onTapDown: _onTapDown,
-                          onTapUp: _onTapUp,
-                          onTapCancel: _onTapCancel,
+                          onTapDown: _isButtonEnabled ? _onTapDown : null,
+                          onTapUp: _isButtonEnabled ? _onTapUp : null,
+                          onTapCancel: _isButtonEnabled ? _onTapCancel : null,
                           child: AnimatedBuilder(
                             animation: _scaleAnimation,
                             builder: (context, child) => Transform.scale(
@@ -98,21 +119,24 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                 width: isWideScreen ? 100 : 80,
                                 height: isWideScreen ? 100 : 80,
                                 decoration: BoxDecoration(
-                                  color: Colors.purple,
+                                  color: _isButtonEnabled ? Colors.white : Colors.white38,
                                   shape: BoxShape.circle,
                                 ),
                                 child: IconButton(
                                   icon: Icon(
-                                    Icons.play_arrow, 
-                                    color: Colors.white, 
-                                    size: isWideScreen ? 50 : 40
+                                    Icons.play_arrow,
+                                    color: Colors.blue,
+                                    size: isWideScreen ? 50 : 40,
                                   ),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                                    );
-                                  },
+                                  onPressed: _isButtonEnabled
+                                      ? () {
+                                          // Aquí puedes guardar el nombre si lo necesitas
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => HomeScreen()),
+                                          );
+                                        }
+                                      : null,
                                 ),
                               ),
                             ),

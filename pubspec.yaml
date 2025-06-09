@@ -34,6 +34,7 @@ flutter:
     - assets/fondo/fondo1.jpg
     - assets/letras/
     - assets/sonidos/
+    - assets/silabas/
     - assets/sonidos/Que_vocal_es_esta.mp3
     - assets/sonidos/Arrastra_la_vocal.mp3
 
