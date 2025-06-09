@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^4.1.0
+  audioplayers: ^5.2.0
   lottie: ^2.7.0
   shared_preferences: ^2.2.2
   
@@ -31,6 +31,22 @@ flutter:
     - assets/fonts/ComicNeue/
     - assets/images/
     - assets/icons/Logo.png
+    - assets/sonidos/puzzlegame.mp3
+    - assets/sonidos/Contar.mp3
+    - assets/sonidos/uno.mp3
+    - assets/sonidos/Dos.mp3
+    - assets/sonidos/Tres.mp3
+    - assets/sonidos/Cuatro.mp3
+    - assets/sonidos/Cinco.mp3
+    - assets/sonidos/Seis.mp3
+    - assets/sonidos/Siete.mp3
+    - assets/sonidos/Ocho.mp3
+    - assets/sonidos/Nueve.mp3
+    - assets/sonidos/Diez.mp3
+    - assets/sonidos/correcto.mp3
+    - assets/sonidos/incorrecto.mp3
+    - assets/sonidos/Sumas.mp3
+    - assets/sonidos/Restas.mp3
   fonts:
     - family: ComicNeue
       fonts:

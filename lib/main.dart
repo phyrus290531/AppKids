@@ -1,6 +1,7 @@
+import 'package:appmorritos/Pantallas/math_lessons_screen.dart';
 import 'package:flutter/material.dart';
 import 'Pantallas/home_screen.dart';
-import 'Pantallas/math_games.dart';
+import 'Pantallas/sumas_game_screen.dart';
 import 'Pantallas/reading_games.dart';
 import 'Pantallas/login_screen.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(), // Cambié aquí para que inicie con el SplashScreen
       routes: {
         '/home': (context) => HomeScreen(),
-        '/math': (context) => MathGamesScreen(),
+        '/math': (context) => MathLessonsScreen(),
         '/reading': (context) => ReadingGamesScreen(),
         '/login': (context) => LoginScreen(),
       },

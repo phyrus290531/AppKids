@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-//import 'math_games.dart';
-//import 'reading_games.dart';
-import 'math_lessons_screen.dart';
+import 'home_screen.dart';
+import 'sumas_game_screen.dart';
+import 'counting_game_screen.dart';
+import 'restas_game_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class MathLessonsScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MathLessonsScreenState createState() => _MathLessonsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+class _MathLessonsScreenState extends State<MathLessonsScreen> {
+  int _selectedIndex = 1;  // Initialize to 1 for math tab
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           // Capa semi-transparente
           Positioned.fill(
-            child: Container(
-              //color: Colors.white.withOpacity(0.8),
-            ),
+            child: Container(),
           ),
           // Contenido principal
           SafeArea(
@@ -37,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
-                    'Lectura',
+                    'Matemáticas',
                     style: TextStyle(
                       fontFamily: 'ComicNeue',
                       fontSize: 32,
@@ -63,33 +62,42 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     children: [
                       _LessonCard(
-                        title: 'El ABC',
+                        title: 'Aprende a Contar',
                         subtitle: 'Nivel 1',
                         color: Color(0xFFFF7BAC),
-                        image: 'assets/images/abc_lesson.png',
+                        image: 'assets/images/Numeros.png',
                         onTap: () {
-                          // Navegación a la lección del ABC
-                          
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CountingGameScreen()),
+                          );
                         },
                       ),
                       SizedBox(height: 16),
                       _LessonCard(
-                        title: 'Las Vocales',
+                        title: 'Sumas Básicas',
                         subtitle: 'Nivel 2',
                         color: Color(0xFF9C7BFF),
-                        image: 'assets/images/vocales_lesson.jpg',
+                        image: 'assets/images/Sumas.png',
                         onTap: () {
-                          // Navegación a la lección de vocales
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SumasGameScreen()),
+    );
                         },
                       ),
                       SizedBox(height: 16),
                       _LessonCard(
-                        title: 'Las Sílabas',
+                        title: 'Restas Básicas',
                         subtitle: 'Nivel 3',
                         color: Color(0xFF7B9FFF),
-                        image: 'assets/images/silabas_lesson.jpg',
+                        image: 'assets/images/Restas.png',
                         isLocked: true,
                         onTap: () {
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(builder: (context) => RestasGameScreen()),
+                          );
                           // Mostrar mensaje de nivel bloqueado
                         },
                       ),
@@ -104,10 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
-          if (index == 1) {
+          if (index == 0) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MathLessonsScreen()),
+              MaterialPageRoute(builder: (context) => HomeScreen()),
             );
           }
           setState(() {
